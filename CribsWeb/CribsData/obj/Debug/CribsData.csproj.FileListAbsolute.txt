@@ -1,0 +1,5 @@
+C:\codespace\dumpsite\Cribs\CribsWeb\CribsData\bin\Debug\CribsData.dll
+C:\codespace\dumpsite\Cribs\CribsWeb\CribsData\bin\Debug\CribsData.pdb
+C:\codespace\dumpsite\Cribs\CribsWeb\CribsData\obj\Debug\CribsData.csprojResolveAssemblyReference.cache
+C:\codespace\dumpsite\Cribs\CribsWeb\CribsData\obj\Debug\CribsData.dll
+C:\codespace\dumpsite\Cribs\CribsWeb\CribsData\obj\Debug\CribsData.pdb
