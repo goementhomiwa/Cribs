@@ -164,15 +164,15 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="DataContexts\CribsDb.cs" />
-    <Compile Include="DataContexts\CribsMigrations\201506032136439_InitialCreate.cs" />
-    <Compile Include="DataContexts\CribsMigrations\201506032136439_InitialCreate.Designer.cs">
-      <DependentUpon>201506032136439_InitialCreate.cs</DependentUpon>
+    <Compile Include="DataContexts\CribsMigrations\201506040211203_InitialCreate.cs" />
+    <Compile Include="DataContexts\CribsMigrations\201506040211203_InitialCreate.Designer.cs">
+      <DependentUpon>201506040211203_InitialCreate.cs</DependentUpon>
     </Compile>
     <Compile Include="DataContexts\CribsMigrations\Configuration.cs" />
     <Compile Include="DataContexts\IdentityDb.cs" />
-    <Compile Include="DataContexts\IdentityMigrations\201506032135082_InitialCreate.cs" />
-    <Compile Include="DataContexts\IdentityMigrations\201506032135082_InitialCreate.Designer.cs">
-      <DependentUpon>201506032135082_InitialCreate.cs</DependentUpon>
+    <Compile Include="DataContexts\IdentityMigrations\201506040211365_InitialCreate.cs" />
+    <Compile Include="DataContexts\IdentityMigrations\201506040211365_InitialCreate.Designer.cs">
+      <DependentUpon>201506040211365_InitialCreate.cs</DependentUpon>
     </Compile>
     <Compile Include="DataContexts\IdentityMigrations\Configuration.cs" />
     <Compile Include="Global.asax.cs">
@@ -261,11 +261,11 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="DataContexts\CribsMigrations\201506032136439_InitialCreate.resx">
-      <DependentUpon>201506032136439_InitialCreate.cs</DependentUpon>
+    <EmbeddedResource Include="DataContexts\CribsMigrations\201506040211203_InitialCreate.resx">
+      <DependentUpon>201506040211203_InitialCreate.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="DataContexts\IdentityMigrations\201506032135082_InitialCreate.resx">
-      <DependentUpon>201506032135082_InitialCreate.cs</DependentUpon>
+    <EmbeddedResource Include="DataContexts\IdentityMigrations\201506040211365_InitialCreate.resx">
+      <DependentUpon>201506040211365_InitialCreate.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -8,3 +8,13 @@ C:\codespace\dumpsite\Cribs\CribsWeb\CribsData\bin\Debug\EntityFramework.dll
 C:\codespace\dumpsite\Cribs\CribsWeb\CribsData\bin\Debug\EntityFramework.SqlServer.dll
 C:\codespace\dumpsite\Cribs\CribsWeb\CribsData\bin\Debug\EntityFramework.xml
 C:\codespace\dumpsite\Cribs\CribsWeb\CribsData\bin\Debug\EntityFramework.SqlServer.xml
+C:\cyphercodebase\C#\MissionCribs\Cribs\CribsWeb\CribsData\bin\Debug\Cribs.Entities.dll.config
+C:\cyphercodebase\C#\MissionCribs\Cribs\CribsWeb\CribsData\bin\Debug\Cribs.Entities.dll
+C:\cyphercodebase\C#\MissionCribs\Cribs\CribsWeb\CribsData\bin\Debug\Cribs.Entities.pdb
+C:\cyphercodebase\C#\MissionCribs\Cribs\CribsWeb\CribsData\bin\Debug\EntityFramework.dll
+C:\cyphercodebase\C#\MissionCribs\Cribs\CribsWeb\CribsData\bin\Debug\EntityFramework.SqlServer.dll
+C:\cyphercodebase\C#\MissionCribs\Cribs\CribsWeb\CribsData\bin\Debug\EntityFramework.xml
+C:\cyphercodebase\C#\MissionCribs\Cribs\CribsWeb\CribsData\bin\Debug\EntityFramework.SqlServer.xml
+C:\cyphercodebase\C#\MissionCribs\Cribs\CribsWeb\CribsData\obj\Debug\Cribs.Entities.csprojResolveAssemblyReference.cache
+C:\cyphercodebase\C#\MissionCribs\Cribs\CribsWeb\CribsData\obj\Debug\Cribs.Entities.dll
+C:\cyphercodebase\C#\MissionCribs\Cribs\CribsWeb\CribsData\obj\Debug\Cribs.Entities.pdb

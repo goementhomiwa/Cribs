@@ -6,6 +6,7 @@ namespace Cribs.Entities
 {
     public class RentCrib
     {
+        [Key]
         public int Id { get; set; }
         [Required]
         [StringLength(100, ErrorMessage = "Title cannot exceed 100 characters")]
@@ -31,9 +32,11 @@ namespace Cribs.Entities
 
     public class CribImages
     {
+        [Key]
         public int Id { get; set; }
         public byte[] Image { get; set; }
         public bool Cover { get; set; }
+        [Required]
         public virtual RentCrib RentCrib { get; set; }
     }
 }
