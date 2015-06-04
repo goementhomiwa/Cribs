@@ -18,3 +18,5 @@ C:\cyphercodebase\C#\MissionCribs\Cribs\CribsWeb\CribsData\bin\Debug\EntityFrame
 C:\cyphercodebase\C#\MissionCribs\Cribs\CribsWeb\CribsData\obj\Debug\Cribs.Entities.csprojResolveAssemblyReference.cache
 C:\cyphercodebase\C#\MissionCribs\Cribs\CribsWeb\CribsData\obj\Debug\Cribs.Entities.dll
 C:\cyphercodebase\C#\MissionCribs\Cribs\CribsWeb\CribsData\obj\Debug\Cribs.Entities.pdb
+C:\cyphercodebase\C#\MissionCribs\Cribs\CribsWeb\CribsData\bin\Debug\Microsoft.Web.Infrastructure.dll
+C:\cyphercodebase\C#\MissionCribs\Cribs\CribsWeb\CribsData\bin\Debug\WebActivatorEx.dll
