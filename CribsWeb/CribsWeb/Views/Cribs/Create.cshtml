@@ -1,9 +1,15 @@
 ﻿@model Cribs.Web.ViewModels.CreateCribViewModel
 @{
     ViewBag.Title = "Create";
+    var integers = new[] { 1, 2,3,4,5,6,7,8,9 }.Select(x => new SelectListItem
+    {
+        Value = x.ToString(),
+        Text = x.ToString()
+    });
+    var Values = new SelectList(integers, "Value", "Text");
 }
 
-@using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+@using (Html.BeginForm("Create", "Cribs", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data"}))
 {
     @Html.AntiForgeryToken()
     <h4>Add new rent post.</h4>
@@ -30,7 +36,7 @@
     <div class="form-group">
         @Html.LabelFor(m => m.NumberOfRooms, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
-            @Html.TextBoxFor(m => m.NumberOfRooms, new { @class = "form-control" })
+            @Html.DropDownListFor(m => m.NumberOfRooms, Values, new { @class = "form-control" })
         </div>
     </div>
     <div class="form-group">
@@ -45,6 +51,26 @@
             @Html.TextBoxFor(m => m.Location, new { @class = "form-control" })
         </div>
     </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.MainImage, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.MainImage, new {type="file", @class = "form-control" })
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2">
+            @Html.Label("Choose 2 more photos")
+        </div>
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Image1, new { type = "file", @class = "form-control" })
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-offset-2 col-md-10">
+            @Html.TextBoxFor(m => m.Image2, new { type = "file", @class = "form-control" })
+        </div>
+    </div>
+    <br />
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
             <input type="submit" class="btn btn-default" value="Register" />

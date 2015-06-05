@@ -167,6 +167,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Annotations\CribImage.cs" />
     <Compile Include="Annotations\NotPast.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
@@ -177,21 +178,15 @@
     <Compile Include="Controllers\CribsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
-    <Compile Include="DataContexts\CribsDb.cs" />
-    <Compile Include="DataContexts\CribsMigrations\201506040211203_InitialCreate.cs" />
-    <Compile Include="DataContexts\CribsMigrations\201506040211203_InitialCreate.Designer.cs">
-      <DependentUpon>201506040211203_InitialCreate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="DataContexts\CribsMigrations\Configuration.cs" />
-    <Compile Include="DataContexts\IdentityDb.cs" />
-    <Compile Include="DataContexts\IdentityMigrations\201506040211365_InitialCreate.cs" />
-    <Compile Include="DataContexts\IdentityMigrations\201506040211365_InitialCreate.Designer.cs">
-      <DependentUpon>201506040211365_InitialCreate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="DataContexts\IdentityMigrations\Configuration.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\Images.cs" />
+    <Compile Include="Migrations\201506050504105_InitialCreate.cs" />
+    <Compile Include="Migrations\201506050504105_InitialCreate.Designer.cs">
+      <DependentUpon>201506050504105_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -361,17 +356,8 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CribsData\Cribs.Entities.csproj">
-      <Project>{be18f82e-1501-4fb0-a71c-8a868c8adce3}</Project>
-      <Name>Cribs.Entities</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="DataContexts\CribsMigrations\201506040211203_InitialCreate.resx">
-      <DependentUpon>201506040211203_InitialCreate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="DataContexts\IdentityMigrations\201506040211365_InitialCreate.resx">
-      <DependentUpon>201506040211365_InitialCreate.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201506050504105_InitialCreate.resx">
+      <DependentUpon>201506050504105_InitialCreate.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

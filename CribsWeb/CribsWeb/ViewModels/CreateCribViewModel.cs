@@ -30,8 +30,19 @@ namespace Cribs.Web.ViewModels
         [Display(Name = "Address")]
         [StringLength(100, ErrorMessage = "Title cannot exceed 50 characters")]
         public String Location { get; set; }
+        [Range(1, int.MaxValue)]
         [Display(Name = "Number of rooms")]
         public int NumberOfRooms { get; set; }
-        public HttpPostedFileBase Images { get; set; }
+        [Required]
+        [Display(Name="Cover Photo")]
+        [CribImage]
+        [DataType(DataType.ImageUrl)]
+        public HttpPostedFileBase MainImage { get; set; }
+        [Display(Name = "1)")]
+        [CribImage]
+        public HttpPostedFileBase Image1 { get; set; }
+        [Display(Name = "2)")]
+        [CribImage]
+        public HttpPostedFileBase Image2 { get; set; }
     }
 }

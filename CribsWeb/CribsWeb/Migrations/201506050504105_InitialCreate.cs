@@ -1,4 +1,4 @@
-namespace Cribs.Web.DataContexts.IdentityMigrations
+namespace Cribs.Web.Migrations
 {
     using System;
     using System.Data.Entity.Migrations;
@@ -8,27 +8,37 @@ namespace Cribs.Web.DataContexts.IdentityMigrations
         public override void Up()
         {
             CreateTable(
-                "dbo.AspNetRoles",
+                "dbo.CribImages",
                 c => new
                     {
-                        Id = c.String(nullable: false, maxLength: 128),
-                        Name = c.String(nullable: false, maxLength: 256),
+                        Id = c.Int(nullable: false, identity: true),
+                        Image = c.Binary(),
+                        Cover = c.Boolean(nullable: false),
+                        RentCrib_Id = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
-                .Index(t => t.Name, unique: true, name: "RoleNameIndex");
+                .ForeignKey("dbo.RentCribs", t => t.RentCrib_Id, cascadeDelete: true)
+                .Index(t => t.RentCrib_Id);
             
             CreateTable(
-                "dbo.AspNetUserRoles",
+                "dbo.RentCribs",
                 c => new
                     {
-                        UserId = c.String(nullable: false, maxLength: 128),
-                        RoleId = c.String(nullable: false, maxLength: 128),
+                        Id = c.Int(nullable: false, identity: true),
+                        Title = c.String(nullable: false, maxLength: 100),
+                        Description = c.String(nullable: false, maxLength: 500),
+                        MonthlyPrice = c.Double(nullable: false),
+                        NumberOfRooms = c.Int(nullable: false),
+                        Active = c.Boolean(nullable: false),
+                        Location = c.String(nullable: false, maxLength: 100),
+                        Available = c.DateTime(nullable: false),
+                        DatePost = c.DateTime(),
+                        DateExpire = c.DateTime(),
+                        User_Id = c.String(maxLength: 128),
                     })
-                .PrimaryKey(t => new { t.UserId, t.RoleId })
-                .ForeignKey("dbo.AspNetRoles", t => t.RoleId, cascadeDelete: true)
-                .ForeignKey("dbo.AspNetUsers", t => t.UserId, cascadeDelete: true)
-                .Index(t => t.UserId)
-                .Index(t => t.RoleId);
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.AspNetUsers", t => t.User_Id)
+                .Index(t => t.User_Id);
             
             CreateTable(
                 "dbo.AspNetUsers",
@@ -76,47 +86,53 @@ namespace Cribs.Web.DataContexts.IdentityMigrations
                 .Index(t => t.UserId);
             
             CreateTable(
-                "dbo.RentCribs",
+                "dbo.AspNetUserRoles",
                 c => new
                     {
-                        Id = c.Int(nullable: false, identity: true),
-                        Title = c.String(nullable: false, maxLength: 100),
-                        Description = c.String(nullable: false, maxLength: 500),
-                        MonthlyPrice = c.Double(nullable: false),
-                        NumberOfRooms = c.Int(nullable: false),
-                        Active = c.Boolean(nullable: false),
-                        Location = c.String(nullable: false, maxLength: 100),
-                        Available = c.DateTime(nullable: false),
-                        DatePost = c.DateTime(),
-                        DateExpire = c.DateTime(),
-                        ApplicationUser_Id = c.String(maxLength: 128),
+                        UserId = c.String(nullable: false, maxLength: 128),
+                        RoleId = c.String(nullable: false, maxLength: 128),
+                    })
+                .PrimaryKey(t => new { t.UserId, t.RoleId })
+                .ForeignKey("dbo.AspNetUsers", t => t.UserId, cascadeDelete: true)
+                .ForeignKey("dbo.AspNetRoles", t => t.RoleId, cascadeDelete: true)
+                .Index(t => t.UserId)
+                .Index(t => t.RoleId);
+            
+            CreateTable(
+                "dbo.AspNetRoles",
+                c => new
+                    {
+                        Id = c.String(nullable: false, maxLength: 128),
+                        Name = c.String(nullable: false, maxLength: 256),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.AspNetUsers", t => t.ApplicationUser_Id)
-                .Index(t => t.ApplicationUser_Id);
+                .Index(t => t.Name, unique: true, name: "RoleNameIndex");
             
         }
         
         public override void Down()
         {
+            DropForeignKey("dbo.AspNetUserRoles", "RoleId", "dbo.AspNetRoles");
+            DropForeignKey("dbo.CribImages", "RentCrib_Id", "dbo.RentCribs");
             DropForeignKey("dbo.AspNetUserRoles", "UserId", "dbo.AspNetUsers");
-            DropForeignKey("dbo.RentCribs", "ApplicationUser_Id", "dbo.AspNetUsers");
+            DropForeignKey("dbo.RentCribs", "User_Id", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserLogins", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserClaims", "UserId", "dbo.AspNetUsers");
-            DropForeignKey("dbo.AspNetUserRoles", "RoleId", "dbo.AspNetRoles");
-            DropIndex("dbo.RentCribs", new[] { "ApplicationUser_Id" });
+            DropIndex("dbo.AspNetRoles", "RoleNameIndex");
+            DropIndex("dbo.AspNetUserRoles", new[] { "RoleId" });
+            DropIndex("dbo.AspNetUserRoles", new[] { "UserId" });
             DropIndex("dbo.AspNetUserLogins", new[] { "UserId" });
             DropIndex("dbo.AspNetUserClaims", new[] { "UserId" });
             DropIndex("dbo.AspNetUsers", "UserNameIndex");
-            DropIndex("dbo.AspNetUserRoles", new[] { "RoleId" });
-            DropIndex("dbo.AspNetUserRoles", new[] { "UserId" });
-            DropIndex("dbo.AspNetRoles", "RoleNameIndex");
-            DropTable("dbo.RentCribs");
+            DropIndex("dbo.RentCribs", new[] { "User_Id" });
+            DropIndex("dbo.CribImages", new[] { "RentCrib_Id" });
+            DropTable("dbo.AspNetRoles");
+            DropTable("dbo.AspNetUserRoles");
             DropTable("dbo.AspNetUserLogins");
             DropTable("dbo.AspNetUserClaims");
             DropTable("dbo.AspNetUsers");
-            DropTable("dbo.AspNetUserRoles");
-            DropTable("dbo.AspNetRoles");
+            DropTable("dbo.RentCribs");
+            DropTable("dbo.CribImages");
         }
     }
 }

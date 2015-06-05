@@ -62,7 +62,6 @@ C:\cyphercodebase\C#\MissionCribs\Cribs\CribsWeb\CribsWeb\bin\Cribs.Web.dll.conf
 C:\cyphercodebase\C#\MissionCribs\Cribs\CribsWeb\CribsWeb\bin\Cribs.Web.dll
 C:\cyphercodebase\C#\MissionCribs\Cribs\CribsWeb\CribsWeb\bin\Cribs.Web.pdb
 C:\cyphercodebase\C#\MissionCribs\Cribs\CribsWeb\CribsWeb\bin\Antlr3.Runtime.dll
-C:\cyphercodebase\C#\MissionCribs\Cribs\CribsWeb\CribsWeb\bin\Cribs.Entities.dll
 C:\cyphercodebase\C#\MissionCribs\Cribs\CribsWeb\CribsWeb\bin\EntityFramework.dll
 C:\cyphercodebase\C#\MissionCribs\Cribs\CribsWeb\CribsWeb\bin\EntityFramework.SqlServer.dll
 C:\cyphercodebase\C#\MissionCribs\Cribs\CribsWeb\CribsWeb\bin\Microsoft.AspNet.Identity.Core.dll
@@ -88,7 +87,6 @@ C:\cyphercodebase\C#\MissionCribs\Cribs\CribsWeb\CribsWeb\bin\System.Web.WebPage
 C:\cyphercodebase\C#\MissionCribs\Cribs\CribsWeb\CribsWeb\bin\System.Web.WebPages.dll
 C:\cyphercodebase\C#\MissionCribs\Cribs\CribsWeb\CribsWeb\bin\System.Web.WebPages.Razor.dll
 C:\cyphercodebase\C#\MissionCribs\Cribs\CribsWeb\CribsWeb\bin\WebGrease.dll
-C:\cyphercodebase\C#\MissionCribs\Cribs\CribsWeb\CribsWeb\bin\Cribs.Entities.pdb
 C:\cyphercodebase\C#\MissionCribs\Cribs\CribsWeb\CribsWeb\bin\System.Web.Helpers.xml
 C:\cyphercodebase\C#\MissionCribs\Cribs\CribsWeb\CribsWeb\bin\System.Web.Mvc.xml
 C:\cyphercodebase\C#\MissionCribs\Cribs\CribsWeb\CribsWeb\bin\System.Web.Optimization.xml
@@ -115,9 +113,6 @@ C:\cyphercodebase\C#\MissionCribs\Cribs\CribsWeb\CribsWeb\bin\Microsoft.Owin.Sec
 C:\cyphercodebase\C#\MissionCribs\Cribs\CribsWeb\CribsWeb\obj\Debug\Cribs.Web.csprojResolveAssemblyReference.cache
 C:\cyphercodebase\C#\MissionCribs\Cribs\CribsWeb\CribsWeb\obj\Debug\Cribs.Web.dll
 C:\cyphercodebase\C#\MissionCribs\Cribs\CribsWeb\CribsWeb\obj\Debug\Cribs.Web.pdb
-C:\cyphercodebase\C#\MissionCribs\Cribs\CribsWeb\CribsWeb\obj\Debug\Cribs.Web.DataContexts.CribsMigrations.InitialCreate.resources
-C:\cyphercodebase\C#\MissionCribs\Cribs\CribsWeb\CribsWeb\obj\Debug\Cribs.Web.csproj.GenerateResource.Cache
-C:\cyphercodebase\C#\MissionCribs\Cribs\CribsWeb\CribsWeb\obj\Debug\Cribs.Web.DataContexts.IdentityMigrations.InitialCreate.resources
 C:\cyphercodebase\C#\MissionCribs\Cribs\CribsWeb\CribsWeb\bin\SimpleInjector.dll
 C:\cyphercodebase\C#\MissionCribs\Cribs\CribsWeb\CribsWeb\bin\SimpleInjector.Integration.Web.dll
 C:\cyphercodebase\C#\MissionCribs\Cribs\CribsWeb\CribsWeb\bin\SimpleInjector.Integration.Web.Mvc.dll
@@ -125,3 +120,5 @@ C:\cyphercodebase\C#\MissionCribs\Cribs\CribsWeb\CribsWeb\bin\WebActivatorEx.dll
 C:\cyphercodebase\C#\MissionCribs\Cribs\CribsWeb\CribsWeb\bin\SimpleInjector.xml
 C:\cyphercodebase\C#\MissionCribs\Cribs\CribsWeb\CribsWeb\bin\SimpleInjector.Integration.Web.xml
 C:\cyphercodebase\C#\MissionCribs\Cribs\CribsWeb\CribsWeb\bin\SimpleInjector.Integration.Web.Mvc.xml
+C:\cyphercodebase\C#\MissionCribs\Cribs\CribsWeb\CribsWeb\obj\Debug\Cribs.Web.Migrations.InitialCreate.resources
+C:\cyphercodebase\C#\MissionCribs\Cribs\CribsWeb\CribsWeb\obj\Debug\Cribs.Web.csproj.GenerateResource.Cache
