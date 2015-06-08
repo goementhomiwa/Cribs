@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;
 
-namespace CribsWeb.Models
+namespace Cribs.Web.Models
 {
     public class IndexViewModel
     {

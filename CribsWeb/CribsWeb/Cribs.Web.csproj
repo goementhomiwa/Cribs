@@ -181,6 +181,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\CribFileHelper.cs" />
     <Compile Include="Helpers\Images.cs" />
     <Compile Include="Migrations\201506050504105_InitialCreate.cs" />
     <Compile Include="Migrations\201506050504105_InitialCreate.Designer.cs">
@@ -192,6 +193,7 @@
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModels\EditCribViewModel.cs" />
     <Compile Include="ViewModels\CreateCribViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -287,6 +289,7 @@
     <Content Include="Content\less\bootstrap-datetimepicker-build.less" />
     <Content Include="Content\less\_bootstrap-datetimepicker.less" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\Cribs.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
@@ -341,6 +344,8 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Cribs\Create.cshtml" />
+    <Content Include="Views\Cribs\View.cshtml" />
+    <Content Include="Views\Cribs\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

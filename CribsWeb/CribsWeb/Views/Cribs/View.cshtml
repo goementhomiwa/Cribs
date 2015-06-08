@@ -1,0 +1,73 @@
+﻿@model Cribs.Web.Models.RentCrib
+@{
+    var CoverImage = Convert.ToBase64String(Model.images.Where(x => x.Cover == true).FirstOrDefault().Image);
+    var ImageSource = String.Format("data:image/gif;base64,{0}", CoverImage);
+    var AllImages = new Dictionary<int,string>();
+    var height = String.Format("{0}px", 500);
+    foreach(var image in Model.images)
+    {
+        var Image = Convert.ToBase64String(Model.images.FirstOrDefault().Image);
+        var Source = String.Format("data:image/gif;base64,{0}", CoverImage);
+        AllImages.Add(image.Id, ImageSource);
+    }
+    
+    if(AllImages.Count > 1)
+    {
+        height = String.Format("{0}px", 350);
+    }
+}
+<br />
+<div class="row">
+    <div class="col-md-6" style="background-color:aliceblue;">
+        <div class="row">
+            <div class="col-md-12">
+                <img src="@ImageSource" class="img-responsive">
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="row">
+            <div class="col-md-12" >
+                <h4>@Model.Title</h4>
+                <p>@Model.Description</p>
+                <p><b>@Html.DisplayNameFor(m => m.MonthlyPrice): </b>P @Html.DisplayFor(m=>m.MonthlyPrice)</p>
+                <p><b>@Html.DisplayNameFor(m => m.NumberOfRooms): </b>@Html.DisplayFor(m => m.NumberOfRooms)</p>
+                <p><b>@Html.DisplayNameFor(m => m.Available): </b>@Html.DisplayFor(m => m.Available)</p>
+                <p><b>@Html.DisplayNameFor(m => m.Location): </b>@Html.DisplayFor(m => m.Location)</p>
+
+                @{
+                    if (Model.User.Email == HttpContext.Current.User.Identity.Name)
+                    {
+                        <button class="btn btn-danger">Delete</button>
+                        <button class="btn btn-primary">Edit Details</button>
+                        <button class="btn btn-primary">Edit Photos</button>
+            
+                    }
+                    <button class="btn btn-success">Contact</button>
+
+                }
+
+            </div>
+        </div>        
+    </div>
+</div>
+@{
+    if (AllImages.Count > 1)
+    {
+        <div class="row">
+            <div class="col-md-6">
+                <div class="row">
+                    @foreach (var data in AllImages)
+                    {
+                        <div class="col-md-4" style="height:150px; background-color:rebeccapurple">
+                            <a href="javascript:SwitchBoard(@data.Key)">
+                                <img src="@data.Value" />
+                            </a>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+    }
+}

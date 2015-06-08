@@ -9,31 +9,39 @@ using Cribs.Web.Annotations;
 
 namespace Cribs.Web.ViewModels
 {
-    public class EditCribViewModel
+    public class CreateCribViewModel
     {
         [Required]
         [Display(Name="Title")]
         [StringLength(50, ErrorMessage = "Title cannot exceed 50 characters")]
         public string Title { get; set; }
-        [Required]
+
         [Display(Name = "Details")]
+        [Required]
         [StringLength(500, ErrorMessage = "Title cannot exceed 50 characters")]
         public string Description { get; set; }
+
         [Display(Name = "Monthly Rent")]
-        public double MonthlyRent { get; set; }
         [Required]
+        public double MonthlyRent { get; set; }
+
         [Display(Name = "Available Date")]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         [NotPast(ErrorMessage = "Date and time should be set to the future. ")]
         [DataType(DataType.DateTime)]
+        [Required]
         public DateTime? AvailableDate { get; set; }
+
         [Display(Name = "Address")]
         [StringLength(100, ErrorMessage = "Title cannot exceed 50 characters")]
+        [Required]
         public String Location { get; set; }
+
         [Range(1, int.MaxValue)]
         [Display(Name = "Number of rooms")]
-        public int NumberOfRooms { get; set; }
         [Required]
+        public int NumberOfRooms { get; set; }
+
         [Display(Name="Cover Photo")]
         [CribImage]
         [DataType(DataType.ImageUrl)]

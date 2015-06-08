@@ -5,14 +5,14 @@ namespace Cribs.Web.Migrations
     using System.Data.Entity.Migrations;
     using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<CribsWeb.Models.IdentityDb>
+    internal sealed class Configuration : DbMigrationsConfiguration<Cribs.Web.Models.IdentityDb>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
         }
 
-        protected override void Seed(CribsWeb.Models.IdentityDb context)
+        protected override void Seed(Cribs.Web.Models.IdentityDb context)
         {
             //  This method will be called after migrating to the latest version.
 
