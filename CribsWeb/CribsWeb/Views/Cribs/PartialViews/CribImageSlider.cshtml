@@ -1,0 +1,17 @@
+﻿@model List<string>
+<div class="slider">
+    <ul class="card-image slides">
+        @foreach (var item in Model)
+        {
+            <li>
+                <img src="@item">
+            </li>
+        }
+
+    </ul>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.slider').slider({ full_width: true });
+    });
+</script>

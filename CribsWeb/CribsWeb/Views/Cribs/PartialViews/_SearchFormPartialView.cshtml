@@ -1,0 +1,52 @@
+﻿@model Cribs.Web.ViewModels.SearchModel
+@{
+    using (Html.BeginForm(null, null, FormMethod.Post, new {id = "SearchCribsForm"}))
+    {
+        <div class="row search">
+            <div class="col m2 s12">
+                <div class="row">
+                    <div class="input-field col s12 m12">
+                        @Html.LabelFor(m => m.MinPrice)
+                        @Html.TextBoxFor(m => m.MinPrice)
+                    </div>
+                    <div class="input-field col s12 m12">
+                        @Html.LabelFor(m => m.MaxPrice)
+                        @Html.TextBoxFor(m => m.MaxPrice)
+                    </div>
+                </div>
+            </div>
+            <div class="col m2 s12">
+                <div class="row">
+                    <div class="input-field col s12 m12">
+                        @Html.LabelFor(m => m.NumberOfRooms)
+                        @Html.TextBoxFor(m => m.NumberOfRooms)
+                    </div>
+                </div>
+            </div>
+            <div class="col m3 s12">
+                <div class="row">
+                    <div class=" input-field col  m12 s12">
+                        @Html.LabelFor(m => m.Address)
+                        @Html.TextBoxFor(m => m.Address)
+                    </div>
+                </div>
+            </div>
+            <div class="col m3 s12">
+                <div class="row">
+                    <div class="input-field col s12 m12">
+                        @Html.LabelFor(m => m.SearchPhrase)
+                        @Html.TextBoxFor(m => m.SearchPhrase)
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="row">
+                    <div class="col-md-12">
+                        <br/>
+                        <button id="Search" class="waves-effect waves-light btn">Search</button>  
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+}

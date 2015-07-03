@@ -1,0 +1,8 @@
+﻿@model IEnumerable<Cribs.Web.ViewModels.ThumbnailsViewModel>
+
+@{
+    foreach (var thumb in Model)
+    {
+        Html.RenderPartial("PartialViews/_Card", thumb);
+    }
+}

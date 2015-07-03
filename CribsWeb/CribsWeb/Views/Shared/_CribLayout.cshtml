@@ -1,0 +1,107 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <!--Import materialize.css-->
+    <title>@ViewBag.Title</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    @Styles.Render("~/Content/css/")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    <script type="text/javascript">
+        var SearchParams = new Object();
+
+        function SearchCribs() {
+            InitializeSearchParams();
+            event.preventDefault();
+            $.ajax({
+                url: "@Url.Action("Search", "Cribs")",
+                data: jQuery.param(SearchParams),
+                type: "post",
+                success: function(result) {
+                    $("#Contents").html(result);
+                }
+            });
+        }
+
+        function Create() {
+            $("#CribCreateForm").submit();
+        }
+
+        function InitializeSearchParams() {
+            SearchParams.MinPrice = $("#MinPrice").val();
+            SearchParams.MaxPrice = $("#MaxPrice").val();
+            SearchParams.NumberOfRooms = $("#NumberOfRooms").val();
+            SearchParams.Address = $("#Address").val();
+            SearchParams.KeyWord = $("#KeyWord").val();
+        }
+    </script>
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+</head>
+
+<body>
+<div class="navbar-fixed">
+    <nav class="cyan">
+        <div class="nav-wrapper">
+            @Html.ActionLink("CribHood", "Index", "Home", new {area = ""}, new {@class = "brand-logo center"})
+            <ul id="menu" class="side-nav">
+                <li>@Html.ActionLink("Home", "Index", "Cribs")</li>
+                <li>@Html.ActionLink("About", "About", "Home")</li>
+                <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+            </ul>
+            <ul id="search" class="side-nav">
+                <li class="logo">
+                    <a href="#">
+                        <i class="material-icons">search</i>
+                    </a>
+                </li>
+                <li>
+                    <input placeholder="Min Price" id="MinPrice" type="text">
+                </li>
+                <li>
+                    <input placeholder="Max Price" id="MaxPrice" type="text">
+                </li>
+                <li>
+                    <input placeholder="Number Of rooms" id="NumberOfRooms" type="text">
+                </li>
+                <li>
+                    <input placeholder="Address" id="Address" type="text">
+                </li>
+                <li>
+                    <input placeholder="KeyWord" id="KeyWord" type="text">
+                </li>
+                <li>
+                    <a id="SearchExec" class="btn-large waves-effect waves-light cyan">Search <i class="material-icons">search</i></a>
+                </li>
+            </ul>
+
+            <a href="#" data-activates="menu" id="menu-collapse" class="button-collapse show-on-large">
+                <i class="mdi-navigation-menu"></i>
+            </a>
+            <a href="#" data-activates="search" id="search-collapse" class="button-collapse show-on-large right">
+                <i class="material-icons">search</i>
+            </a>
+        </div>
+    </nav>
+</div>
+<div class="container">
+    @RenderBody()
+</div>
+@Scripts.Render("~/bundles/datetime")
+@Scripts.Render("~/bundles/materialize")
+@RenderSection("scripts", false)
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("#search-collapse").sideNav({ edge: 'right', menuWidth: 220, closeOnClick: true });
+        $("#menu-collapse").sideNav({ edge: 'left', menuWidth: 220 });
+        $('textarea #Description').characterCounter();
+
+
+        $("#SearchExec").click(function () {
+            SearchCribs();
+        });
+     
+    });
+</Script>
+</body>
+</html>

@@ -1,4 +1,5 @@
-﻿@model Cribs.Web.ViewModels.CreateCribViewModel
+﻿@using System.Data.Entity.Core.Metadata.Edm
+@model Cribs.Web.ViewModels.CreateCribViewModel
 @{
     ViewBag.Title = "Create";
     var integers = new[] { 1, 2,3,4,5,6,7,8,9 }.Select(x => new SelectListItem
@@ -10,87 +11,96 @@
 }
 
 <div class="row">
-    <div class="col-md-6">
-        @using (Html.BeginForm("Create", "Cribs", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
-        {
-            @Html.AntiForgeryToken()
-            <h4>Add new rent post.</h4>
-            <hr />
-            @Html.ValidationSummary("", new { @class = "text-danger" })
-            <div class="form-group">
-                @Html.LabelFor(m => m.Title, new { @class = "col-md-2 control-label" })
-                <div class="col-md-10">
-                    @Html.TextBoxFor(m => m.Title, new { @class = "form-control" })
-                </div>
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(m => m.Description, new { @class = "col-md-2 control-label" })
-                <div class="col-md-10">
-                    @Html.TextAreaFor(m => m.Description, new { @class = "form-control" })
-                </div>
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(m => m.MonthlyRent, new { @class = "col-md-2 control-label" })
-                <div class="col-md-10">
-                    @Html.TextBoxFor(m => m.MonthlyRent, new { @class = "form-control" })
-                </div>
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(m => m.NumberOfRooms, new { @class = "col-md-2 control-label" })
-                <div class="col-md-10">
-                    @Html.DropDownListFor(m => m.NumberOfRooms, Values, new { @class = "form-control" })
-                </div>
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(m => m.AvailableDate, new { @class = "col-md-2 control-label" })
-                <div class="col-md-10">
-                    @Html.TextBoxFor(m => m.AvailableDate, new { @class = "form-control datetimepicker" })
-                </div>
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(m => m.Location, new { @class = "col-md-2 control-label" })
-                <div class="col-md-10">
-                    @Html.TextBoxFor(m => m.Location, new { @class = "form-control" })
-                </div>
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(m => m.MainImage, new { @class = "col-md-2 control-label" })
-                <div class="col-md-10">
-                    @Html.TextBoxFor(m => m.MainImage, new { type = "file", @class = "form-control" })
+    @using (Html.BeginForm("Create", "Cribs", FormMethod.Post, new { id= "CribCreateForm", role = "form", enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        <div class="col m6 s12 offset-m3">
+            <div class="row">
+                <div class="col s12 m12 l12">
+                    <h4>Add new</h4>
+                    <hr />
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-2">
-                    @Html.Label("Choose 2 more photos")
+                <div class="input-field  col s12 m6 l6">
+                    <label for="Title">Title</label>
+                    @Html.EditorFor(m => m.Title, new {@class = "validate"})
                 </div>
-                <div class="col-md-10">
-                    @Html.TextBoxFor(m => m.Image1, new { type = "file", @class = "form-control" })
+                <div class="input-field col s12 m6 l6">
+                    <label for="MonthlyRent">Monthly Rent</label>
+                    @Html.EditorFor(m => m.MonthlyRent)
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-offset-2 col-md-10">
-                    @Html.TextBoxFor(m => m.Image2, new { type = "file", @class = "form-control" })
+                <div class="input-field  col s12 m6 l6">
+                    @Html.LabelFor(x => x.AvailableDate)
+                    <input id="AvailableDate" name="AvailableDate" type="date" class="datepicker">
+                </div>
+                <div class="input-field col s12 m6 l6">
+                    <label for="Location">Number of rooms</label>
+                    @Html.EditorFor(m => m.NumberOfRooms)
                 </div>
             </div>
-            <br />
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" class="btn btn-default" value="Register" />
+            <div class="row">
+                <div class="input-field col s12 m12 l12">
+                    <label for="Location">Location</label>
+                    @Html.EditorFor(m => m.Location)
                 </div>
             </div>
-        }
-    </div>
-    <div class="col-md-6">
-        <div class="form-horizontal">
-             
+            <div class="row">
+                <div class="input-field  col s12 m12 l12">
+                    <label for="Description">Description</label>
+                    <textarea id="Description" name="Description" class="materialize-textarea" length="500"></textarea>
+                </div>
+            </div>
+            <fieldset>
+                <legend class="cyan-text">Photos</legend>
+                <div class="row">
+                    <div class="input-field file-field col s10 m10 l10 offset-s1 offset-m1 offset-l1">
+                        <input class="file-path validate" type="text"/>
+                        <div class="btn">
+                            <span>Cover</span>
+                            @Html.TextBoxFor(m=>m.MainImage, new { type = "file"})
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field file-field col s10 m10 l10 offset-s1 offset-m1 offset-l1">
+                        <input class="file-path validate" type="text"/>
+                        <div class="btn">
+                            <span>Select</span>
+                            @Html.TextBoxFor(m => m.Image1, new { type = "file" })
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field file-field col s10 m10 l10 offset-s1 offset-m1 offset-l1">
+                        <input class="file-path validate" type="text" />
+                        <div class="btn">
+                            <span>Select</span>
+                            @Html.TextBoxFor(m => m.Image2, new { type = "file" })
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+          
+            <div class="row">
+                <div class="input-field  col s12 m12 l12">
+                    <a id="Reset" class="btn-large waves-effect waves-light cyan">Reset</a>
+                    <button id="Create" class="btn-large waves-effect waves-light cyan">Create</button>
+                </div>
+            </div>
         </div>
-    </div>
+    
+    }
 </div>
-
-@section scripts{
 <script type="text/javascript">
-    $(function () {
-        $(".datetimepicker").datetimepicker();
-    });
+   $(document).ready(function() {
+        $('.datepicker').pickadate({
+            selectMonths: true, // Creates a dropdown to control month
+            selectYears: 15
+
+        });
+
+   });
 </script>
-}

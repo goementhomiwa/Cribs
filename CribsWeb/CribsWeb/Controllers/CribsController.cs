@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using Cribs.Web.ViewModels;
 using System.Data.Entity;
-using Cribs.Web.Models;
+using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNet.Identity.Owin;
+using System.Web.Mvc;
+using System.Web.UI;
 using Cribs.Web.Helpers;
+using Cribs.Web.Models;
+using Cribs.Web.ViewModels;
 
 namespace Cribs.Web.Controllers
 {
@@ -24,9 +23,25 @@ namespace Cribs.Web.Controllers
       
         // GET: Cribs
         [AllowAnonymous]
+        [OutputCache(Duration = 30, Location = OutputCacheLocation.Any, VaryByParam = "none")]
         public ActionResult Index()
         {
-            return View();
+            var cribs = db.RentCribs.OrderByDescending(x => x.Active);
+            List<ThumbnailsViewModel> thumbs = (from crib in cribs
+                let image = crib.images.FirstOrDefault(x => x.Cover).Image
+                select new ThumbnailsViewModel
+                {
+                    Id = crib.Id, Title = crib.Title, MonthlyRent = crib.MonthlyPrice, DateAvailable = crib.Available, CoverPhoto = image
+                }).ToList();
+            ViewBag.SearchParams = new SearchModel();
+            return View(thumbs);
+        }
+
+        [HttpPost]
+        public ActionResult Search(SearchModel queryParams)
+        {
+            var list = ThumbnailsViewModel.CreateList(CribSearch.Search(queryParams));
+            return PartialView("PartialViews/_SearchResultsPartialView", list);
         }
 
         [Authorize]
@@ -80,45 +95,41 @@ namespace Cribs.Web.Controllers
             };
 
 
-            ApplicationUser user = db.Users.Where(x => x.Email == User.Identity.Name).FirstOrDefault();
+            var user = db.Users.FirstOrDefault(x => x.Email == User.Identity.Name);
             rentCrib.images = images;
             rentCrib.User = user;
             db.RentCribs.Add(rentCrib);
             await db.SaveChangesAsync();
-         
 
-            return RedirectToAction("CribSuccess", rentCrib.Id);
+
+            return RedirectToAction("View", new { cribId = rentCrib.Id });
         }       
  
-        public ActionResult View(int cribId)
+        public ActionResult View(int? id)
         {
-            RentCrib rentCrib = db.RentCribs.Where(x => x.Id == cribId).FirstOrDefault();
+            if (id == null)
+            {
+                
+            }
+            RentCrib rentCrib = db.RentCribs.FirstOrDefault(x => x.Id == id);
             return View(rentCrib);
         }
 
         [Authorize]
-        public ActionResult Edit(int Id)
+        public ActionResult Edit(int id)
         {
-            var model = db.RentCribs.Where(x => x.User.Email == User.Identity.Name).Find(Id);
+            var model = db.RentCribs.FirstOrDefault(x => x.User.Email == User.Identity.Name);
             
             if (model == null)
             {
                 return new HttpNotFoundResult("Whoops! Something weird happened.");
             }
 
-            List<string> supportingImages = new List<string>();
-
             //get images 
-            var coverImage = Convert.ToBase64String(model.images.Where(x => x.Cover == true).FirstOrDefault().Image);
+            var coverImage = Convert.ToBase64String(model.images.Where(x => x.Cover).First().Image);
 
-            foreach (var image in model.images)
-            {
-                if(image.Cover != true)
-                {
-                    supportingImages.Add(Convert.ToBase64String(image.Image));
-                }
-            }
-            CreateCribViewModel viewModel = new CreateCribViewModel
+            List<string> supportingImages = (from image in model.images where image.Cover != true select Convert.ToBase64String(image.Image)).ToList();
+            EditCribViewModel viewModel = new EditCribViewModel
             {
                 Title = model.Title,
                 Description = model.Description,
@@ -129,7 +140,7 @@ namespace Cribs.Web.Controllers
             };
 
             //data to send to the view
-            ViewBag.CribId = Id;
+            ViewBag.CribId = id;
             ViewBag.CoverImage = coverImage;
             ViewBag.SupportingImages = supportingImages;
             return View(viewModel);
@@ -137,18 +148,22 @@ namespace Cribs.Web.Controllers
 
         [Authorize]
         [HttpPost]
-        public async Task<ActionResult> Edit(int Id, EditCribViewModel model)
+        public async Task<ActionResult> Edit(int id, EditCribViewModel model)
         {
             if(!ModelState.IsValid)
             {
-                ViewBag.CribId = Id;
+                ViewBag.CribId = id;
                 return View(model);
             }
 
             //find the crib to update
-            RentCrib rentCrib = db.RentCribs.Where(x => (x.Id == Id && x.User.Email == User.Identity.Name)).FirstOrDefault();
+            RentCrib rentCrib = null;
+            if (db.RentCribs.First(x => (x.Id == id && x.User.Email == User.Identity.Name)) != null)
+            {
+                rentCrib = db.RentCribs.First(x => (x.Id == id && x.User.Email == User.Identity.Name));
+            }
 
-            if(rentCrib == null)
+            if (rentCrib == null)
             {
                 //Handle as error
                 return new HttpNotFoundResult("Whoops! Something weird happened.");
@@ -161,7 +176,7 @@ namespace Cribs.Web.Controllers
             rentCrib.Available = model.AvailableDate;
 
             #region set images edit
-            rentCrib.images.Where(x => x.Cover == true).First().Image = CribFileHelper.GetByteArray(model.MainImage);
+            rentCrib.images.First(x => x.Cover).Image = CribFileHelper.GetByteArray(model.MainImage);
 
             var supportingImages = rentCrib.images.Where(x => x.Cover == false).ToList();
             if(supportingImages.Count == 0)
@@ -209,7 +224,32 @@ namespace Cribs.Web.Controllers
             }
 
             //successfully updated a post
-            return RedirectToAction("View", Id);
+            return RedirectToAction("View", id);
+        }
+
+        [Authorize]
+        public async Task<ActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                throw new ArgumentNullException("Error" + " occured while processing your request. Please contact support.");
+            }
+
+            var crib = db.RentCribs.Find(id);
+            if (crib == null)
+            {
+                throw new ArgumentNullException("Error" + " occured while processing your request. Please contact support.");
+            }
+
+            crib.Active = true;
+            db.Entry(crib).State = EntityState.Modified;
+            int result = await db.SaveChangesAsync();
+            if (result == 0)
+            {
+                throw new ArgumentNullException("Error" + " occured while processing your request. Please contact support.");
+            }
+
+            return RedirectToAction("Index");
         }
     }
 }

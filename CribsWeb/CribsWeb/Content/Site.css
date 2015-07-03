@@ -23,5 +23,32 @@ textarea {
     max-width: 280px;
 }
 
+.crib-img-responsive {
+  display: block;
+  height: 200px;
+  width: 100%;
+  max-width: 100%;
+}
 
+.search {
+    border:solid 1px #dddddd;
+    -ms-border-radius:5px;
+    border-radius:5px; 
+    background-color:#f8f8f8; 
+    padding:20px; 
+    margin-bottom:15px;
+    margin-top: 15px;
+    position: static;
 
+}
+
+.crib-container {
+    margin-right: 100px;
+    margin-left: 100px;
+    width:auto;
+}
+
+.crib-modal-header {
+    margin: 10px;
+    line-height: 1.428571429;
+}

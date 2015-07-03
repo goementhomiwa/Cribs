@@ -1,0 +1,21 @@
+﻿@using Cribs.Web.Helpers
+@model Cribs.Web.ViewModels.ThumbnailsViewModel
+
+<div class="col s12 m3 l3">
+    <div class="card small">
+        <div class="card-image">
+            <img src="@CribFileHelper.GetImageSource(Model.CoverPhoto)">
+        </div>
+        <div class="card-content">
+            <p>
+                <label>Monthly Price: &nbsp;P @Model.MonthlyRent</label> 
+            </p>
+            <p>
+                <label>Available on: &nbsp;@(string.Format("{0:dd/MM/yyyy}", Model.DateAvailable))</label>
+            </p>
+        </div>
+        <div class="card-action">
+            <a class="cyan-text" href="@Url.Action("View", new { id = Model.Id})">Open</a>
+        </div>
+    </div>
+</div>

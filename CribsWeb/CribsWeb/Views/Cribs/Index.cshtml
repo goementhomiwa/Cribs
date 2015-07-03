@@ -1,0 +1,18 @@
+﻿@using Cribs.Web.ViewModels
+@model IEnumerable<ThumbnailsViewModel>
+
+@{
+    ViewBag.Title = "Home";
+}
+
+@*Html.Partial("PartialViews/_SearchFormPartialView", (SearchModel)ViewBag.SearchParams)*@
+
+<div class="row" id="Contents">
+    @{
+        foreach (var thumb in Model)
+        {
+            Html.RenderPartial("PartialViews/_Card", thumb);
+        }
+    }
+</div>
+@Html.Partial("PartialViews/_CribsFloatingMenu")

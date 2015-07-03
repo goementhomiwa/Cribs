@@ -1,0 +1,7 @@
+﻿@model byte[]
+@{
+    var Image = Convert.ToBase64String(Model);
+    var ImageSource = String.Format("data:image/gif;base64,{0}", Image);        
+}
+
+<img src="@ImageSource" class="img-responsive img-thumbnail"/>
