@@ -13,7 +13,7 @@ namespace Cribs.Web.Annotations
         public override bool IsValid(object value)
         {
             int MaxContentLength = 1024 * 1024 * 5;
-            string[] AllowedFileExtensions = new string[] { ".jpg", ".gif", ".png"};
+            string[] AllowedFileExtensions = new string[] { ".jpg", ".JPG", ".gif", ".png"};
             var file =  value as HttpPostedFileBase;
             if (file == null)
             {
