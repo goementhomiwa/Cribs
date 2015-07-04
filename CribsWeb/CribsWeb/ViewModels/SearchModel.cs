@@ -18,7 +18,7 @@ namespace Cribs.Web.ViewModels
         [Display(Name = "Rooms")]
         public int? NumberOfRooms { get; set; }
         [Display(Name = "Search Phrase")]
-        public string SearchPhrase { get; set; }
+        public string KeyWord { get; set; }
         public string Username { get; set; }
     }
 }

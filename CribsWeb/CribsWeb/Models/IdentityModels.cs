@@ -23,7 +23,7 @@ namespace Cribs.Web.Models
     public class IdentityDb : IdentityDbContext<ApplicationUser>
     {
         public IdentityDb()
-            : base("AuthContext")
+            : base("DefaultConnection")
         {
         }
 
@@ -31,16 +31,11 @@ namespace Cribs.Web.Models
         {
             return new IdentityDb();
         }
-
+        [Required]
+        [StringLength(20, ErrorMessage = "Title cannot exceed 20 characters")]
+        public string PreferredName { get; set; }
         public DbSet<RentCrib> RentCribs { get; set; }
         public DbSet<CribImages> RentCribImages { get; set; }
-
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        {
-            base.OnModelCreating(modelBuilder);
-        }
-
-
     }
     public class RentCrib
     {

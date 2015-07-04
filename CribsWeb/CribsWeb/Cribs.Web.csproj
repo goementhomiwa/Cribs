@@ -184,6 +184,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CribsController.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Global.asax.cs">
@@ -413,6 +414,7 @@
     <Content Include="Views\Shared\_CribLayout.cshtml" />
     <Content Include="Views\Cribs\PartialViews\CribImageSlider.cshtml" />
     <Content Include="Views\Cribs\PartialViews\ConfirmDeleteModal.cshtml" />
+    <Content Include="Views\Error\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

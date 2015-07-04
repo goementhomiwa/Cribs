@@ -52,7 +52,7 @@ namespace Cribs.Web.Controllers
 
         [HttpPost]
         [Authorize]
-        public async Task<ActionResult> Create(CreateCribViewModel model)
+        public ActionResult Create(CreateCribViewModel model)
         {
             if(!ModelState.IsValid)
             {
@@ -99,30 +99,39 @@ namespace Cribs.Web.Controllers
             rentCrib.images = images;
             rentCrib.User = user;
             db.RentCribs.Add(rentCrib);
-            await db.SaveChangesAsync();
+            
+            db.SaveChanges();
 
-
-            return RedirectToAction("View", new { cribId = rentCrib.Id });
+            return RedirectToAction("View", new { id = rentCrib.Id });
         }       
  
-        public ActionResult View(int? id)
+        [HttpGet]
+        public async Task<ActionResult> View(int? id)
         {
             if (id == null)
             {
-                
+                throw new ArgumentNullException("Error" + " occured while processing your request. Please contact support.");
             }
-            RentCrib rentCrib = db.RentCribs.FirstOrDefault(x => x.Id == id);
+            RentCrib rentCrib = await db.RentCribs.FindAsync(id);
+            if (rentCrib == null)
+            {
+                throw new ArgumentNullException("Error" + " occured while processing your request. Please contact support.");
+            }
             return View(rentCrib);
         }
 
         [Authorize]
-        public ActionResult Edit(int id)
+        public ActionResult Edit(int? id)
         {
+            if (id == null)
+            {
+                throw new ArgumentNullException("Error" + " occured while processing your request. Please contact support.");
+            }
             var model = db.RentCribs.FirstOrDefault(x => x.User.Email == User.Identity.Name);
             
             if (model == null)
             {
-                return new HttpNotFoundResult("Whoops! Something weird happened.");
+                throw new ArgumentNullException("Error" + " occured while processing your request. Please contact support.");
             }
 
             //get images 

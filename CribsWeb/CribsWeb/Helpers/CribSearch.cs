@@ -70,9 +70,9 @@ namespace Cribs.Web.Helpers
                 filters.Push(addressFilter);
             }
 
-            if (queryParams.SearchPhrase != null)
+            if (queryParams.KeyWord != null)
             {
-                var phrase = queryParams.SearchPhrase;
+                var phrase = queryParams.KeyWord;
                 var tokens = phrase.Split(' ');
                 foreach (var token in tokens)
                 {

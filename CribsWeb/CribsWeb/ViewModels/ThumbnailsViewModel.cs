@@ -9,33 +9,32 @@ namespace Cribs.Web.ViewModels
     public class ThumbnailsViewModel
     {
         public int Id { get; set; }
+
         [Display(Name = "Title:")]
         public string Title { get; set; }
+
         [Display(Name = "Available Date:")]
         [UIHint("DateTime")]
         public DateTime? DateAvailable { get; set; }
+
         [UIHint("CribImageDisplay")]
         public byte[] CoverPhoto { get; set; }
-        [Display(Name="Month rent:")]
+
+        [Display(Name = "Month rent:")]
         public double MonthlyRent { get; set; }
 
-        public static List<ThumbnailsViewModel> CreateList(IQueryable<RentCrib> list)
+        public static List<ThumbnailsViewModel> CreateList(IQueryable<RentCrib> cribs)
         {
-            List<ThumbnailsViewModel> thumbs = new List<ThumbnailsViewModel>();
-            foreach (var crib in list)
-            {
-                CribImages first = crib.images.FirstOrDefault(x => x.Cover);
-                
-                thumbs.Add(new ThumbnailsViewModel
+            var thumbs = (from crib in cribs
+                let image = crib.images.FirstOrDefault(x => x.Cover).Image
+                select new ThumbnailsViewModel
                 {
                     Id = crib.Id,
                     Title = crib.Title,
                     MonthlyRent = crib.MonthlyPrice,
                     DateAvailable = crib.Available,
-                    CoverPhoto = first != null ? first.Image : null
-                });               
-            }
-
+                    CoverPhoto = image
+                }).ToList();
             return thumbs;
         }
     }

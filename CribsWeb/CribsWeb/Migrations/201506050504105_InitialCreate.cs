@@ -1,8 +1,7 @@
+using System.Data.Entity.Migrations;
+
 namespace Cribs.Web.Migrations
 {
-    using System;
-    using System.Data.Entity.Migrations;
-    
     public partial class InitialCreate : DbMigration
     {
         public override void Up()
