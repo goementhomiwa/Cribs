@@ -8,6 +8,8 @@ namespace Cribs.Web.ViewModels
     public class EditCribViewModel
     {
         [Required]
+        public int Id { get; set; }
+        [Required]
         [Display(Name="Title")]
         [StringLength(50, ErrorMessage = "Title cannot exceed 50 characters")]
         public string Title { get; set; }
@@ -29,7 +31,6 @@ namespace Cribs.Web.ViewModels
         [Range(1, int.MaxValue)]
         [Display(Name = "Number of rooms")]
         public int NumberOfRooms { get; set; }
-        [Required]
         [Display(Name="Cover Photo")]
         [CribImage]
         [DataType(DataType.ImageUrl)]

@@ -1,128 +1,150 @@
 ﻿@model Cribs.Web.ViewModels.EditCribViewModel
-
-<div class="row" id="Contents"></div>
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
-    var integers = new[] {1, 2, 3, 4, 5, 6, 7, 8, 9}.Select(x => new SelectListItem
+@{
+    ViewBag.Title = "Edit";
+    var image1 = string.Empty;
+    var image2 = string.Empty;
+    var supportingImages = (List<string>) ViewBag.SupportingImages;
+    if (supportingImages.Count != 0)
     {
-        Value = x.ToString(),
-        Text = x.ToString()
-    });
-    var Values = new SelectList(integers, "Value", "Text");
+        image1 = string.Format("data:image/gif;base64,{0}", supportingImages.First());
+    }
 
-
-    <div class="form-horizontal">
-        <h4>RentCrib</h4>
-        <hr/>
-        @Html.ValidationSummary(true, "", new {@class = "text-danger"})
-        <div class="form-group">
-            @Html.LabelFor(model => model.Title, new {@class = "control-label col-md-4"})
-            <div class="col-md-8">
-                @Html.EditorFor(model => model.Title, new {htmlAttributes = new {@class = "form-control"}})
-                @Html.ValidationMessageFor(model => model.Title, "", new {@class = "text-danger"})
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Description, new {@class = "control-label col-md-4"})
-            <div class="col-md-8">
-                @Html.TextAreaFor(model => model.Description, new {htmlAttributes = new {@class = "form-control"}})
-                @Html.ValidationMessageFor(model => model.Description, "", new {@class = "text-danger"})
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.MonthlyRent, new {@class = "control-label col-md-4"})
-            <div class="col-md-8">
-                @Html.EditorFor(model => model.MonthlyRent, new {htmlAttributes = new {@class = "form-control"}})
-                @Html.ValidationMessageFor(model => model.MonthlyRent, "", new {@class = "text-danger"})
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.NumberOfRooms, new {@class = "control-label col-md-4"})
-            <div class="col-md-8">
-                @Html.DropDownListFor(model => model.NumberOfRooms, Values, new {htmlAttributes = new {@class = "form-control"}})
-                @Html.ValidationMessageFor(model => model.NumberOfRooms, "", new {@class = "text-danger"})
-            </div>
-        </div>
-
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Location, new {@class = "control-label col-md-4"})
-            <div class="col-md-8">
-                @Html.EditorFor(model => model.Location, new {htmlAttributes = new {@class = "form-control"}})
-                @Html.ValidationMessageFor(model => model.Location, "", new {@class = "text-danger"})
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.AvailableDate, new {@class = "control-label col-md-4"})
-            <div class="col-md-8">
-                @Html.EditorFor(model => model.AvailableDate.Value, new {htmlAttributes = new {@class = "form-control datetimepicker"}})
-                @Html.ValidationMessageFor(model => model.AvailableDate, "", new {@class = "text-danger"})
-            </div>
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(m => m.MainImage, new {@class = "col-md-4 control-label"})
-            <div class="col-md-8">
-                @Html.TextBoxFor(m => m.MainImage, new {type = "file", @class = "form-control", id = "CoverImage"})
-                <img id="main_image" src="data:image/gif;base64,@ViewBag.CoverImage" height="200px" width="200px" class="img-responsive">
-
-            </div>
-        </div>
-        <div class="form-group">
-            @Html.Label("Choose 2 more photos", new {@class = "col-md-4 control-label"})
-            <div class="col-md-8">
-                @Html.TextBoxFor(m => m.Image1, new {type = "file", @class = "form-control", id = "Image1"})
-                <img id="image_holder_1" src="http://placehold.it/100x100" height="200px" width="200px" class="img-responsive">
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-offset-4 col-md-8">
-                @Html.TextBoxFor(m => m.Image2, new {type = "file", @class = "form-control", id = "Image2"})
-                <img id="image_holder_1" src="http://placehold.it/100x100" height="200px" width="200px" class="img-responsive">
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-4 col-md-8">
-                <input type="submit" value="Save" class="btn btn-success"/> <button class="btn btn-primary" id="EditImages">Edit Images</button>
-            </div>
-        </div>
-    </div>
+    if (supportingImages.Count == 2)
+    {
+        image2 = string.Format("data:image/gif;base64,{0}", supportingImages.First());
+    }
 }
+<div class="row" id="Contents">
+    @using (Html.BeginForm("Edit", "Cribs", FormMethod.Post, new {id = "CribEditForm", role = "form", enctype = "multipart/form-data"}))
+    {
+        @Html.AntiForgeryToken()
+        <div class="col m6 s12 offset-m3">
+            <div class="row">
+                <div class="col s12 m12 l12">
+                    <h4>Edit</h4>
+                    <hr/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field  col s12 m6 l6">
+                    @* ReSharper disable once Html.IdNotResolved *@
+                    <label for="Title">Title</label>
+                    @Html.EditorFor(m => m.Title, new {@class = "validate"})
+                </div>
+                <div class="input-field col s12 m6 l6">
+                    @* ReSharper disable once Html.IdNotResolved *@
+                    <label for="MonthlyRent">Monthly Rent</label>
+                    @Html.EditorFor(m => m.MonthlyRent)
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field  col s12 m6 l6">
+                    @Html.LabelFor(x => x.AvailableDate)
+                    <input id="AvailableDate" name="AvailableDate" type="date" class="datepicker" value="@Model.AvailableDate">
+                </div>
+                <div class="input-field col s12 m6 l6">
+                    @* ReSharper disable once Html.IdNotResolved *@
+                    <label for="NumberOfRooms">Number of rooms</label>
+                    @Html.EditorFor(m => m.NumberOfRooms)
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12 m12 l12">
+                    @* ReSharper disable once Html.IdNotResolved *@
+                    <label for="Location">Location</label>
+                    @Html.EditorFor(m => m.Location)
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field  col s12 m12 l12">
+                    <label for="Description">Description</label>
+                    <textarea id="Description" name="Description" class="materialize-textarea" length="500">@Model.Description</textarea>
+                </div>
+            </div>
+            <fieldset>
+                <legend class="cyan-text">Edit Photos</legend>
+                <ul class="collapsible" data-collapsible="accordion">
+                    <li>
+                        <div class="collapsible-header">
+                            <i class="material-icons">edit</i>Cover
+                        </div>
+                        <div class="collapsible-body">
+                            <div class="input-field file-field col s10 m10 l10 offset-s1 offset-m1 offset-l1">
+                                <input class="file-path validate" type="text"/>
+                                <div class="btn">
+                                    <span>Add</span>
+                                    @Html.TextBoxFor(m => m.MainImage, new {type = "file"})
+                                </div>
+                            </div>
+                            <div class="input-field file-field col s10 m10 l10 offset-s1 offset-m1 offset-l1">
+                                <img id="ImagePreview_MainImage" src="@string.Format("data:image/gif;base64,{0}", ViewBag.CoverImage)" class="responsive-img materialboxed"/>
+                            </div>
 
-<div>
-    @Html.ActionLink("Back to List", "Index", new {@class = "btn btn-success"})
+                        </div>
+                    </li>
+                    <li>
+                        <div class="collapsible-header">
+                            <i class="material-icons">edit</i>1
+                        </div>
+                        <div class="collapsible-body">
+                            <div class="input-field file-field col s10 m10 l10 offset-s1 offset-m1 offset-l1">
+                                <input class="file-path validate" type="text"/>
+                                <div class="btn">
+                                    <span>Add</span>
+                                    @Html.TextBoxFor(m => m.Image1, new {type = "file"})
+                                </div>
+                            </div>
+                            <div class="input-field file-field col s10 m10 l10 offset-s1 offset-m1 offset-l1">
+                                @{
+                                    if (image1 != string.Empty)
+                                    {
+                                        <img id="ImagePreview_Image1" src="@image1" class="responsive-img materialboxed"/>
+                                    }
+                                    else
+                                    {
+                                        <img id="ImagePreview_Image1" src="http://dummyimage.com/600x400/aab0b0/9cbfd6.jpg&text=crib" class="responsive-img"/>
+                                    }
+                                }
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="collapsible-header">
+                            <i class="material-icons">edit</i>2
+                        </div>
+                        <div class="collapsible-body">
+                            <div class="input-field file-field col s10 m10 l10 offset-s1 offset-m1 offset-l1">
+                                <input class="file-path validate" type="text"/>
+                                <div class="btn">
+                                    <span>Add</span>
+                                    @Html.TextBoxFor(m => m.Image2, new {type = "file"})
+                                </div>
+                            </div>
+                            <div class="input-field file-field col s10 m10 l10 offset-s1 offset-m1 offset-l1">
+                                @{
+                                    if (image1 != string.Empty)
+                                    {
+                                        <img id="ImagePreview_Image2" src="@image2" class="responsive-img materialboxed"/>
+                                    }
+                                    else
+                                    {
+                                        <img id="ImagePreview_Image2" src="http://dummyimage.com/600x400/aab0b0/9cbfd6.jpg&text=crib" class="responsive-img"/>
+                                    }
+                                }
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </fieldset>
 
-
+            <div class="row">
+                <div class="input-field  col s12 m12 l12">
+                    <input type="hidden" value=""/>
+                    <button id="Edit" class="btn-large waves-effect waves-light cyan">Save</button>
+                </div>
+            </div>
+        </div>
+    }
 </div>
+
 @Html.Partial("PartialViews/_CribsFloatingMenu")
-
-
-@section scripts{
-    <script type="text/javascript">
-        $(function() {
-            var img = {};
-            $("input[type=file]").change(function(e) {
-                debugger;
-                if (e.currentTarget.files[0]) {
-                    var reader = new FileReader();
-                    img = e.currentTarget.nextElementSibling;
-
-                    reader.onload = function(e) {
-                        $("#" + img.id).attr("src", e.target.result);
-                    };
-                    reader.readAsDataURL(e.currentTarget.files[0]);
-                    alert("Imaged changed");
-
-                }
-
-
-            });
-        });
-
-    </script>
-}

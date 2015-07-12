@@ -1,0 +1,39 @@
+﻿@model IEnumerable<Cribs.Web.ViewModels.ThumbnailsViewModel>
+@{
+    if (Model != null)
+    {
+        var pageSize = 5;
+        var modelSize = Model.Count();
+        if (modelSize > pageSize)
+        {
+            <div class="row">
+                <ul class="pagination">
+                    <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
+                    @{
+                        var numberOfPages = modelSize/pageSize;
+                        if (modelSize%pageSize > 0)
+                        {
+                            numberOfPages++;
+                        }
+                        for (var page = 1; page <= numberOfPages; page++)
+                        {
+                            string active = "";
+                            if (page == 1)
+                            {
+                                active = "active";
+                            }
+                            else
+                            {
+                                active = String.Empty;
+                            }
+                            <li class="waves-effect @active">
+                                <a href="#!">@page</a>
+                            </li>
+                        }
+                    }
+                    <li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
+                </ul>
+            </div>
+        }
+    }
+}

@@ -106,6 +106,7 @@ namespace Cribs.Web.Controllers
         }       
  
         [HttpGet]
+        [AllowAnonymous]
         public async Task<ActionResult> View(int? id)
         {
             if (id == null)
@@ -123,70 +124,69 @@ namespace Cribs.Web.Controllers
         [Authorize]
         public ActionResult Edit(int? id)
         {
+
             if (id == null)
             {
                 throw new ArgumentNullException("Error" + " occured while processing your request. Please contact support.");
             }
-            var model = db.RentCribs.FirstOrDefault(x => x.User.Email == User.Identity.Name);
+            var model = db.RentCribs.Find(id);
             
             if (model == null)
             {
                 throw new ArgumentNullException("Error" + " occured while processing your request. Please contact support.");
             }
 
-            //get images 
-            var coverImage = Convert.ToBase64String(model.images.Where(x => x.Cover).First().Image);
-
-            List<string> supportingImages = (from image in model.images where image.Cover != true select Convert.ToBase64String(image.Image)).ToList();
+            if (model.User.UserName != HttpContext.User.Identity.Name)
+            {
+                throw new UnauthorizedAccessException("Error : You are not authorized to perform this action.");
+            }
             EditCribViewModel viewModel = new EditCribViewModel
             {
+                Id = model.Id,
                 Title = model.Title,
                 Description = model.Description,
                 MonthlyRent = model.MonthlyPrice,
                 AvailableDate = model.Available,
                 Location = model.Location,
-                NumberOfRooms = model.NumberOfRooms,              
+                NumberOfRooms = model.NumberOfRooms,
             };
+            //get images 
+            ViewBag.CoverImage = Convert.ToBase64String(model.images.Where(x => x.Cover).First().Image);
 
-            //data to send to the view
-            ViewBag.CribId = id;
-            ViewBag.CoverImage = coverImage;
-            ViewBag.SupportingImages = supportingImages;
+            ViewBag.SupportingImages = (from image in model.images where image.Cover != true select Convert.ToBase64String(image.Image)).ToList();
+          
             return View(viewModel);
         }
 
         [Authorize]
         [HttpPost]
-        public async Task<ActionResult> Edit(int id, EditCribViewModel model)
+        public ActionResult Edit(EditCribViewModel model)
         {
             if(!ModelState.IsValid)
             {
-                ViewBag.CribId = id;
                 return View(model);
             }
 
             //find the crib to update
-            RentCrib rentCrib = null;
-            if (db.RentCribs.First(x => (x.Id == id && x.User.Email == User.Identity.Name)) != null)
-            {
-                rentCrib = db.RentCribs.First(x => (x.Id == id && x.User.Email == User.Identity.Name));
-            }
+            RentCrib rentCrib = db.RentCribs.First(x => (x.Id == model.Id && x.User.Email == User.Identity.Name));
 
             if (rentCrib == null)
             {
                 //Handle as error
-                return new HttpNotFoundResult("Whoops! Something weird happened.");
+                throw new ArgumentNullException("Error" + " occured while processing your request. Please contact support.");
             }
-
             rentCrib.Title = model.Title;
             rentCrib.Description = model.Description;
             rentCrib.Location = model.Location;
             rentCrib.NumberOfRooms = model.NumberOfRooms;
             rentCrib.Available = model.AvailableDate;
+            rentCrib.MonthlyPrice = model.MonthlyRent;
 
             #region set images edit
-            rentCrib.images.First(x => x.Cover).Image = CribFileHelper.GetByteArray(model.MainImage);
-
+            if(model.MainImage != null)
+            { 
+                rentCrib.images.First(x => x.Cover).Image =  CribFileHelper.GetByteArray(model.MainImage);
+            }
             var supportingImages = rentCrib.images.Where(x => x.Cover == false).ToList();
             if(supportingImages.Count == 0)
             {
@@ -225,15 +225,10 @@ namespace Cribs.Web.Controllers
             }
             #endregion
             db.Entry(rentCrib).State = EntityState.Modified;
-            int success = await db.SaveChangesAsync();
-            if(success >= 0)
-            {
-                //handle as error
-                return new HttpNotFoundResult("Whoops! Something weird happened.");
-            }
+            int success = db.SaveChanges();
 
             //successfully updated a post
-            return RedirectToAction("View", id);
+            return RedirectToAction("View", new {id = model.Id});
         }
 
         [Authorize]

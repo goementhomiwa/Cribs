@@ -1,32 +1,27 @@
-﻿@using System.Data.Entity.Core.Metadata.Edm
-@model Cribs.Web.ViewModels.CreateCribViewModel
+﻿@model Cribs.Web.ViewModels.CreateCribViewModel
 @{
     ViewBag.Title = "Create";
-    var integers = new[] { 1, 2,3,4,5,6,7,8,9 }.Select(x => new SelectListItem
-    {
-        Value = x.ToString(),
-        Text = x.ToString()
-    });
-    var Values = new SelectList(integers, "Value", "Text");
 }
 
 <div class="row">
-    @using (Html.BeginForm("Create", "Cribs", FormMethod.Post, new { id= "CribCreateForm", role = "form", enctype = "multipart/form-data" }))
+    @using (Html.BeginForm("Create", "Cribs", FormMethod.Post, new {id = "CribCreateForm", role = "form", enctype = "multipart/form-data"}))
     {
         @Html.AntiForgeryToken()
         <div class="col m6 s12 offset-m3">
             <div class="row">
                 <div class="col s12 m12 l12">
                     <h4>Add new</h4>
-                    <hr />
+                    <hr/>
                 </div>
             </div>
             <div class="row">
                 <div class="input-field  col s12 m6 l6">
+                    @* ReSharper disable once Html.IdNotResolved *@
                     <label for="Title">Title</label>
                     @Html.EditorFor(m => m.Title, new {@class = "validate"})
                 </div>
                 <div class="input-field col s12 m6 l6">
+                    @* ReSharper disable once Html.IdNotResolved *@
                     <label for="MonthlyRent">Monthly Rent</label>
                     @Html.EditorFor(m => m.MonthlyRent)
                 </div>
@@ -37,12 +32,14 @@
                     <input id="AvailableDate" name="AvailableDate" type="date" class="datepicker">
                 </div>
                 <div class="input-field col s12 m6 l6">
-                    <label for="Location">Number of rooms</label>
+                    @* ReSharper disable once Html.IdNotResolved *@
+                    <label for="NumberOfRooms">Number of rooms</label>
                     @Html.EditorFor(m => m.NumberOfRooms)
                 </div>
             </div>
             <div class="row">
                 <div class="input-field col s12 m12 l12">
+                    @* ReSharper disable once Html.IdNotResolved *@
                     <label for="Location">Location</label>
                     @Html.EditorFor(m => m.Location)
                 </div>
@@ -55,35 +52,66 @@
             </div>
             <fieldset>
                 <legend class="cyan-text">Photos</legend>
-                <div class="row">
-                    <div class="input-field file-field col s10 m10 l10 offset-s1 offset-m1 offset-l1">
-                        <input class="file-path validate" type="text"/>
-                        <div class="btn">
-                            <span>Cover</span>
-                            @Html.TextBoxFor(m=>m.MainImage, new { type = "file"})
+                <ul class="collapsible" data-collapsible="accordion">
+                    <li>
+                        <div class="collapsible-header">
+                            <i class="material-icons">edit</i>Cover
                         </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="input-field file-field col s10 m10 l10 offset-s1 offset-m1 offset-l1">
-                        <input class="file-path validate" type="text"/>
-                        <div class="btn">
-                            <span>Select</span>
-                            @Html.TextBoxFor(m => m.Image1, new { type = "file" })
+                        <div class="collapsible-body">
+                            <div class="input-field file-field col s10 m10 l10 offset-s1 offset-m1 offset-l1">
+                                <input class="file-path validate" type="text"/>
+                                <div class="btn">
+                                    <span>Add</span>
+                                    @Html.TextBoxFor(m => m.MainImage, new {type = "file"})
+                                </div>
+                            </div>
+                            <div class="input-field file-field col s10 m10 l10 offset-s1 offset-m1 offset-l1">
+                                <img id="ImagePreview_Image2" src="" class="responsive-img"/>
+                            </div>
+
                         </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="input-field file-field col s10 m10 l10 offset-s1 offset-m1 offset-l1">
-                        <input class="file-path validate" type="text" />
-                        <div class="btn">
-                            <span>Select</span>
-                            @Html.TextBoxFor(m => m.Image2, new { type = "file" })
+                    </li>
+                    <li>
+                        <div class="collapsible-header">
+                            <i class="material-icons">edit</i>1
                         </div>
-                    </div>
-                </div>
+                        <div class="collapsible-body">
+                            <div class="input-field file-field col s10 m10 l10 offset-s1 offset-m1 offset-l1">
+                                <input class="file-path validate" type="text"/>
+                                <div class="btn">
+                                    <span>Add</span>
+                                    @Html.TextBoxFor(m => m.Image1, new {type = "file"})
+                                </div>
+                            </div>
+                            <div class="input-field file-field col s10 m10 l10 offset-s1 offset-m1 offset-l1">
+                                <img id="ImagePreview_Image2" src="" class="responsive-img"/>
+
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="collapsible-header">
+                            <i class="material-icons">edit</i>2
+                        </div>
+                        <div class="collapsible-body">
+                            <div class="input-field file-field col s10 m10 l10 offset-s1 offset-m1 offset-l1">
+                                <input class="file-path validate" type="text"/>
+                                <div class="btn">
+                                    <span>Add</span>
+                                    @Html.TextBoxFor(m => m.Image2, new {type = "file"})
+                                </div>
+                            </div>
+                            <div class="input-field file-field col s10 m10 l10 offset-s1 offset-m1 offset-l1">
+                                <img id="ImagePreview_Image2" src="" class="responsive-img"/>
+
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+
+
             </fieldset>
-          
+
             <div class="row">
                 <div class="input-field  col s12 m12 l12">
                     <a id="Reset" class="btn-large waves-effect waves-light cyan">Reset</a>
@@ -91,16 +119,15 @@
                 </div>
             </div>
         </div>
-    
     }
 </div>
 <script type="text/javascript">
-   $(document).ready(function() {
+    $(document).ready(function() {
         $('.datepicker').pickadate({
             selectMonths: true, // Creates a dropdown to control month
             selectYears: 15
 
         });
 
-   });
+    });
 </script>

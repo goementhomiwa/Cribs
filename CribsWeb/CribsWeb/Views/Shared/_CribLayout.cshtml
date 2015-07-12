@@ -1,49 +1,37 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <!--Import materialize.css-->
     <title>@ViewBag.Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     @Styles.Render("~/Content/css/")
-    @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/jquery")
-    <script type="text/javascript">
-        var SearchParams = new Object();
+    @Scripts.Render("~/bundles/cribs")
 
+    <script type="text/javascript">
         function SearchCribs() {
             InitializeSearchParams();
             event.preventDefault();
+            $('#PreLoader').openModal();
+
             $.ajax({
                 url: "@Url.Action("Search", "Cribs")",
                 data: jQuery.param(SearchParams),
                 type: "post",
                 success: function(result) {
                     $("#Contents").html(result);
+                    $('#PreLoader').closeModal();
                 }
             });
         }
-
-        function Create() {
-            $("#CribCreateForm").submit();
-        }
-
-        function InitializeSearchParams() {
-            SearchParams.MinPrice = $("#MinPrice").val();
-            SearchParams.MaxPrice = $("#MaxPrice").val();
-            SearchParams.NumberOfRooms = $("#NumberOfRooms").val();
-            SearchParams.Address = $("#Address").val();
-            SearchParams.KeyWord = $("#KeyWord").val();
-        }
     </script>
-    <!--Let browser know website is optimized for mobile-->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 </head>
 
 <body>
 <div class="navbar-fixed">
     <nav class="cyan">
         <div class="nav-wrapper">
-            @Html.ActionLink("CribHood", "Index", "Home", new {area = ""}, new {@class = "brand-logo center"})
+            @Html.ActionLink("CribHood", "Index", "Cribs", new { area = "" }, new { @class = "brand-logo center" })
             <ul id="menu" class="side-nav">
                 <li>@Html.ActionLink("Home", "Index", "Cribs")</li>
                 <li>@Html.ActionLink("About", "About", "Home")</li>
@@ -81,6 +69,9 @@
             <a href="#" data-activates="search" id="search-collapse" class="button-collapse show-on-large right">
                 <i class="material-icons">search</i>
             </a>
+            <a href="#" data-activates="search" id="search-collapse" class="button-collapse show-on-large right">
+                <i class="mdi mdi-facebook"></i>
+            </a>
         </div>
     </nav>
 </div>
@@ -95,12 +86,21 @@
         $("#search-collapse").sideNav({ edge: 'right', menuWidth: 220, closeOnClick: true });
         $("#menu-collapse").sideNav({ edge: 'left', menuWidth: 220 });
         $('textarea #Description').characterCounter();
+        $("input[type=file]").change(function () {
+            Preview(this);
+        });
+        $('.datepicker').pickadate({
+            selectMonths: true, // Creates a dropdown to control month
+            selectYears: 15
 
+        });
 
         $("#SearchExec").click(function () {
             SearchCribs();
         });
      
+        $('.materialboxed').materialbox();
+
     });
 </Script>
 </body>

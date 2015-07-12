@@ -3,22 +3,28 @@
     ViewBag.Title = "Send";
 }
 
-<h2>@ViewBag.Title.</h2>
-
-@using (Html.BeginForm("SendCode", "Account", new { ReturnUrl = Model.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" })) {
-    @Html.AntiForgeryToken()
-    @Html.Hidden("rememberMe", @Model.RememberMe)
-    <h4>Send verification code</h4>
-    <hr />
-    <div class="row">
-        <div class="col-md-8">
-            Select Two-Factor Authentication Provider:
-            @Html.DropDownListFor(model => model.SelectedProvider, Model.Providers)
-            <input type="submit" value="Submit" class="btn btn-default" />
+<div class="row">
+    @using (Html.BeginForm("SendCode", "Account", new {Model.ReturnUrl}, FormMethod.Post, new {@class = "form-horizontal", role = "form"}))
+    {
+        @Html.AntiForgeryToken()
+        <div class="col m6 s12 offset-m3">
+            <div class="row">
+                <div class="col s12 m12 l12">
+                    @Html.Hidden("rememberMe", @Model.RememberMe)
+                    <h4>Send verification code</h4>
+                    <hr/>
+                </div>
+            </div>
+            <div class="row">
+                <div cclass="input-field  col s12 m12 l12">
+                    Select Two-Factor Authentication Provider:
+                    @Html.DropDownListFor(model => model.SelectedProvider, Model.Providers)
+                    <input type="submit" value="Submit" class="btn cyan" />
+                </div>
+            </div>
         </div>
-    </div>
-}
-
+    }
+</div>
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }
