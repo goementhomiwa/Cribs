@@ -1,6 +1,6 @@
 ﻿using Microsoft.Owin;
 using Owin;
-
+ 
 [assembly: OwinStartupAttribute(typeof(Cribs.Web.Startup))]
 namespace Cribs.Web
 {
@@ -9,6 +9,8 @@ namespace Cribs.Web
         public void Configuration(IAppBuilder app)
         {
             ConfigureAuth(app);
+            app.MapSignalR();
+
         }
     }
 }

@@ -124,3 +124,7 @@ C:\cyphercodebase\C#\MissionCribs\Cribs\CribsWeb\CribsWeb\obj\Debug\Cribs.Web.dl
 C:\cyphercodebase\C#\MissionCribs\Cribs\CribsWeb\CribsWeb\obj\Debug\Cribs.Web.pdb
 C:\cyphercodebase\C#\MissionCribs\Cribs\CribsWeb\CribsWeb\bin\Elmah.dll
 C:\cyphercodebase\C#\MissionCribs\Cribs\CribsWeb\CribsWeb\bin\Elmah.Mvc.dll
+C:\cyphercodebase\C#\MissionCribs\Cribs\CribsWeb\CribsWeb\bin\Microsoft.AspNet.SignalR.Core.dll
+C:\cyphercodebase\C#\MissionCribs\Cribs\CribsWeb\CribsWeb\bin\Microsoft.AspNet.SignalR.SystemWeb.dll
+C:\cyphercodebase\C#\MissionCribs\Cribs\CribsWeb\CribsWeb\bin\Microsoft.AspNet.SignalR.Core.xml
+C:\cyphercodebase\C#\MissionCribs\Cribs\CribsWeb\CribsWeb\bin\Microsoft.AspNet.SignalR.SystemWeb.xml

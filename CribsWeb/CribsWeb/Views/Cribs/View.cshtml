@@ -1,11 +1,18 @@
 ﻿@using Cribs.Web.Helpers
 @model Cribs.Web.Models.RentCrib
+
 <script type="text/javascript">
-    
-    
+
+
     function DeleteCrib() {
 
-        window.location.href = "@Url.Action("Delete")" +"/"+ @Model.Id;
+        window.location.href = "@Url.Action("Delete")" + "/" + @Model.Id;
+    }
+
+    function PublishComment(comment) {
+        $('#Comments').append('<div class="col s12 m10 offset-m1 l10 offset-l1"><div class="card-panel rounded valign-wrapper grey lighten-5 z-depth-1"><div class="col s10"><span class="valign black-text">'
+            +comment + '</span></div> </div> </div> </div>');
+
     }
 
     $(document).ready(function() {
@@ -14,8 +21,31 @@
             DeleteCrib();
         });
         $('.modal-trigger').leanModal();
+
+        
+        debugger;
+        var connection = $.connection.CribChatHub;
+        connection.client.flush = function (message) {
+            // Add the message to the page. 
+            PublishComment(message);
+        };
+
+        $.connection.hub.start()
+            .done(function() {
+                Materialize.toast('Leave a comment.', 3000);
+                $("#SendComment").click(function(e) {
+                    connection.server.publish($('#Comment').val());
+                    $('#Comment').val('').focus();
+
+                });
+                // Clear text box and reset focus for next comment. 
+                $('#Comment').val('').focus();
+            })
+            .fail(function() { Materialize.toast('Sorry, comments not available at this moment!', 3000); });
+
     });
 </script>
+
 
 @{
     var imageSources = CribFileHelper.GetImageSources(Model.images.ToList());
@@ -44,7 +74,7 @@
                         <div class="card-content">
                             <span class="card-title cyan-text">@Model.Title</span><br/>
                             <label>Monthly rent: P</label><label>@Html.DisplayFor(x => x.MonthlyPrice)</label>&nbsp;&nbsp;
-                            <label>Number of rooms: @Html.DisplayFor(x => x.NumberOfRooms)</label>&nbsp;&nbsp;
+                            <label>Rooms: @Html.DisplayFor(x => x.NumberOfRooms)</label>&nbsp;&nbsp;
                             <label>Available date: @Html.DisplayFor(m => m.Available)</label>
 
                             <p>
@@ -61,6 +91,22 @@
                                 <a class="waves-effect waves-light cyan-text">Contact</a>
                             }
                         </div>
+                        <div class="row valign-wrapper">
+                                <div class="input-field col offset-l1  m10 s10 l8">
+                                    <label for="Comment">Comments</label>
+                                    <input id="Comment" type="text" />
+                                </div>
+                                <div class="input-field m1 s1 l1">
+                                    <button class="valign btn waves-effect waves-light" id="SendComment">
+                                        <i class="material-icons tiny">send</i>
+                                    </button>
+                                </div>
+                        </div>
+                        <div id="Comments" class="row">
+
+
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -70,4 +116,3 @@
 
 @Html.Partial("PartialViews/ConfirmDeleteModal")
 @Html.Partial("PartialViews/_CribsFloatingMenu")
-

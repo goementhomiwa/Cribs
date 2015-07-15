@@ -5,8 +5,9 @@
     <title>@ViewBag.Title</title>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     @Styles.Render("~/Content/css/")
-    @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/SignalR")
+    <script src="~/signalr/hubs"></script>
     <script type="text/javascript">
         var SearchParams = new Object();
 
@@ -87,7 +88,6 @@
 <div class="container">
     @RenderBody()
 </div>
-@Scripts.Render("~/bundles/datetime")
 @Scripts.Render("~/bundles/materialize")
 @RenderSection("scripts", false)
 <script type="text/javascript">
@@ -102,6 +102,6 @@
         });
      
     });
-</Script>
+</script>
 </body>
 </html>
