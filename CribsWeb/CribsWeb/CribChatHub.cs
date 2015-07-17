@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNet.SignalR;
+﻿using System;
+using Cribs.Web.Models.Chat;
+using Cribs.Web.Repositories;
+using Microsoft.AspNet.SignalR;
 using Microsoft.AspNet.SignalR.Hubs;
 
 namespace Cribs.Web
@@ -6,15 +9,17 @@ namespace Cribs.Web
     [HubName("CribChatHub")]
     public class CribChatHub : Hub
     {
-        public void Subscribe(string chatId)
-        {
-            Groups.Add(Context.ConnectionId, chatId);
-        }
+        public IChatGroupRepository ChatGroupRepository { get; set; }
+        public IMessageRepository MessageRepository { get; set; }
 
-        public void Publish(/*string toChatId,*/ string message)
+        public void Publish(Guid id, string username, string message)
         {
-            //Clients.Group(toChatId).flush(message);
-            Clients.All.flush(message);
+            var post = ChatGroupRepository.Find(id);
+            if (post != null)
+            {
+                var savedMessage = MessageRepository.Save(post, new Message {Body = message, UserName = username});
+                Clients.All.flush(message);
+            }
 
         }
     }

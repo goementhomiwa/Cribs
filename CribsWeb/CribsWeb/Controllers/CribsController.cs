@@ -7,6 +7,8 @@ using System.Web.Mvc;
 using System.Web.UI;
 using Cribs.Web.Helpers;
 using Cribs.Web.Models;
+using Cribs.Web.Models.Chat;
+using Cribs.Web.Repositories;
 using Cribs.Web.ViewModels;
 
 namespace Cribs.Web.Controllers
@@ -14,24 +16,29 @@ namespace Cribs.Web.Controllers
     [Authorize]
     public class CribsController : Controller
     {
-        private IdentityDb db;
-        public CribsController()
+        private readonly IdentityDb _db;
+        // ReSharper disable once UnusedAutoPropertyAccessor.Local
+        private readonly IChatGroupRepository _chatGroupRepository;
+        private readonly IMessageRepository _messageRepository;
+        public CribsController(IChatGroupRepository chatGroupRepository, IMessageRepository messageRepository)
         {
-            db = new IdentityDb();
+            _chatGroupRepository = chatGroupRepository;
+            _messageRepository = messageRepository;
+            _db = new IdentityDb();
         }
-
       
         // GET: Cribs
         [AllowAnonymous]
         [OutputCache(Duration = 30, Location = OutputCacheLocation.Any, VaryByParam = "none")]
         public ActionResult Index()
         {
-            var cribs = db.RentCribs.OrderByDescending(x => x.Active);
+            var cribs = _db.RentCribs.OrderByDescending(x => x.Active);
+
             List<ThumbnailsViewModel> thumbs = (from crib in cribs
                 let image = crib.images.FirstOrDefault(x => x.Cover).Image
                 select new ThumbnailsViewModel
                 {
-                    Id = crib.Id, Title = crib.Title, MonthlyRent = crib.MonthlyPrice, DateAvailable = crib.Available, CoverPhoto = image
+                    Id = crib.CribRentGuid, Title = crib.Title, MonthlyRent = crib.MonthlyPrice, DateAvailable = crib.Available, CoverPhoto = image
                 }).ToList();
             ViewBag.SearchParams = new SearchModel();
             return View(thumbs);
@@ -95,24 +102,27 @@ namespace Cribs.Web.Controllers
             };
 
 
-            var user = db.Users.FirstOrDefault(x => x.Email == User.Identity.Name);
+            var user = _db.Users.FirstOrDefault(x => x.Email == User.Identity.Name);
             rentCrib.images = images;
             rentCrib.User = user;
-            db.RentCribs.Add(rentCrib);
+            rentCrib.CribRentGuid = Guid.NewGuid();
+            _db.RentCribs.Add(rentCrib);
             
-            db.SaveChanges();
+            _db.SaveChanges();
 
-            return RedirectToAction("View", new { id = rentCrib.Id });
+            _chatGroupRepository.Save(new CribChatGroup{Id=rentCrib.CribRentGuid, Name = "CRIB_CHAT_"+rentCrib.Id});
+
+            return RedirectToAction("View", new { id = rentCrib.CribRentGuid });
         }       
  
         [HttpGet]
-        public async Task<ActionResult> View(int? id)
+        public async Task<ActionResult> View(Guid id)
         {
             if (id == null)
             {
                 throw new ArgumentNullException("Error" + " occured while processing your request. Please contact support.");
             }
-            RentCrib rentCrib = await db.RentCribs.FindAsync(id);
+            RentCrib rentCrib = await _db.RentCribs.FirstOrDefaultAsync(x=>x.CribRentGuid == id);
             if (rentCrib == null)
             {
                 throw new ArgumentNullException("Error" + " occured while processing your request. Please contact support.");
@@ -121,13 +131,13 @@ namespace Cribs.Web.Controllers
         }
 
         [Authorize]
-        public ActionResult Edit(int? id)
+        public ActionResult Edit(Guid id)
         {
             if (id == null)
             {
                 throw new ArgumentNullException("Error" + " occured while processing your request. Please contact support.");
             }
-            var model = db.RentCribs.FirstOrDefault(x => x.User.Email == User.Identity.Name);
+            var model = _db.RentCribs.FirstOrDefault(x => x.User.Email == User.Identity.Name && x.CribRentGuid == id);
             
             if (model == null)
             {
@@ -157,7 +167,7 @@ namespace Cribs.Web.Controllers
 
         [Authorize]
         [HttpPost]
-        public async Task<ActionResult> Edit(int id, EditCribViewModel model)
+        public async Task<ActionResult> Edit(Guid id, EditCribViewModel model)
         {
             if(!ModelState.IsValid)
             {
@@ -167,9 +177,9 @@ namespace Cribs.Web.Controllers
 
             //find the crib to update
             RentCrib rentCrib = null;
-            if (db.RentCribs.First(x => (x.Id == id && x.User.Email == User.Identity.Name)) != null)
+            if (_db.RentCribs.First(x => (x.CribRentGuid == id && x.User.Email == User.Identity.Name)) != null)
             {
-                rentCrib = db.RentCribs.First(x => (x.Id == id && x.User.Email == User.Identity.Name));
+                rentCrib = _db.RentCribs.First(x => (x.CribRentGuid== id && x.User.Email == User.Identity.Name));
             }
 
             if (rentCrib == null)
@@ -224,8 +234,8 @@ namespace Cribs.Web.Controllers
                 }
             }
             #endregion
-            db.Entry(rentCrib).State = EntityState.Modified;
-            int success = await db.SaveChangesAsync();
+            _db.Entry(rentCrib).State = EntityState.Modified;
+            int success = await _db.SaveChangesAsync();
             if(success >= 0)
             {
                 //handle as error
@@ -237,22 +247,22 @@ namespace Cribs.Web.Controllers
         }
 
         [Authorize]
-        public async Task<ActionResult> Delete(int? id)
+        public async Task<ActionResult> Delete(Guid id)
         {
             if (id == null)
             {
                 throw new ArgumentNullException("Error" + " occured while processing your request. Please contact support.");
             }
 
-            var crib = db.RentCribs.Find(id);
+            var crib = _db.RentCribs.Find(id);
             if (crib == null)
             {
                 throw new ArgumentNullException("Error" + " occured while processing your request. Please contact support.");
             }
 
             crib.Active = true;
-            db.Entry(crib).State = EntityState.Modified;
-            int result = await db.SaveChangesAsync();
+            _db.Entry(crib).State = EntityState.Modified;
+            int result = await _db.SaveChangesAsync();
             if (result == 0)
             {
                 throw new ArgumentNullException("Error" + " occured while processing your request. Please contact support.");

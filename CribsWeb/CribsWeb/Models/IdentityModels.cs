@@ -6,17 +6,19 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.ComponentModel.DataAnnotations;
 using System;
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace Cribs.Web.Models
 {
-    // You can add profile data for the user by adding more properties to your ApplicationUser class, please visit http://go.microsoft.com/fwlink/?LinkID=317594 to learn more.
     public class ApplicationUser : IdentityUser
     {
+        [Display(Name = "Display Name"), Required, StringLength(20, ErrorMessage = "Title cannot exceed 20 characters")]
+        public string DisplayName { get; set; }
         public virtual ICollection<RentCrib> RentCribs { get; set; }
+
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
-            // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
             var userIdentity = await manager.CreateIdentityAsync(this, DefaultAuthenticationTypes.ApplicationCookie);
-            // Add custom user claims here
             return userIdentity;
         }
     }
@@ -31,21 +33,17 @@ namespace Cribs.Web.Models
         {
             return new IdentityDb();
         }
-        [Required]
-        [StringLength(20, ErrorMessage = "Title cannot exceed 20 characters")]
-        public string PreferredName { get; set; }
         public DbSet<RentCrib> RentCribs { get; set; }
         public DbSet<CribImages> RentCribImages { get; set; }
     }
     public class RentCrib
     {
-        [Key]
+        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        [Required]
-        [StringLength(100, ErrorMessage = "Title cannot exceed 100 characters")]
+        public Guid CribRentGuid { get; set; }
+        [Required, StringLength(100, ErrorMessage = "Title cannot exceed 100 characters")]
         public string Title { get; set; }
-        [Required]
-        [StringLength(500, ErrorMessage = "Description cannot exceed 500 characters")]
+        [Required, StringLength(500, ErrorMessage = "Description cannot exceed 500 characters")]
         public string Description { get; set; }
         [Required]
         public double MonthlyPrice { get; set; }
@@ -66,7 +64,7 @@ namespace Cribs.Web.Models
 
     public class CribImages
     {
-        [Key]
+        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public byte[] Image { get; set; }
         public bool Cover { get; set; }

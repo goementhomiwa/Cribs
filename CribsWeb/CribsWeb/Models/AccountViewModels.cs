@@ -65,6 +65,11 @@ namespace Cribs.Web.Models
     public class RegisterViewModel
     {
         [Required]
+        [StringLength(20)]
+        [Display(Name = "Display Name")]
+        public string DisplayName { get; set; }
+
+        [Required]
         [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }

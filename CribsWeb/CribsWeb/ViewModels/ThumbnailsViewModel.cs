@@ -8,7 +8,7 @@ namespace Cribs.Web.ViewModels
 {
     public class ThumbnailsViewModel
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
         [Display(Name = "Title:")]
         public string Title { get; set; }
@@ -29,7 +29,7 @@ namespace Cribs.Web.ViewModels
                 let image = crib.images.FirstOrDefault(x => x.Cover).Image
                 select new ThumbnailsViewModel
                 {
-                    Id = crib.Id,
+                    Id = crib.CribRentGuid,
                     Title = crib.Title,
                     MonthlyRent = crib.MonthlyPrice,
                     DateAvailable = crib.Available,
